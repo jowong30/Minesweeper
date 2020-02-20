@@ -1,25 +1,38 @@
 import de.bezier.guido.*;
 //Declare and initialize constants NUM_ROWS and NUM_COLS = 20
+int NUM_ROWS = 5;
+int NUM_COLS = 5;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines; //ArrayList of just the minesweeper buttons that are mined
 
 void setup ()
 {
-    size(400, 400);
+    size(700, 700);
     textAlign(CENTER,CENTER);
     
     // make the manager
     Interactive.make( this );
-    
+    mines = new ArrayList <MSButton>();
     //your code to initialize buttons goes here
-    
-    
+    buttons = new MSButton[NUM_ROWS] [NUM_COLS];
+    for(int i = 0; i<NUM_COLS; i++){
+        for(int u =0; u< NUM_COLS; u++){
+            buttons[i][u] =  new MSButton(i,u);
+        }
+    }
     
     setMines();
 }
 public void setMines()
 {
     //your code
+    int row = (int)(Math.random()*NUM_ROWS);
+    int col = (int)(Math.random()*NUM_COLS);
+    if(mines.contains(buttons[row][col])){
+        setMines();
+    }else{
+        mines.add(buttons[row][col]);
+    }
 }
 
 public void draw ()
@@ -43,13 +56,27 @@ public void displayWinningMessage()
 }
 public boolean isValid(int r, int c)
 {
-    //your code here
-    return false;
+    if(r <NUM_ROWS && c < NUM_ROWS && r > -1 && c > -1){
+        return true;
+      }
+      return false;
+
 }
 public int countMines(int row, int col)
 {
     int numMines = 0;
-    //your code here
+
+      for(int r = row-1; r<row+2; r++){
+        for(int c = col - 1; c<col+2; c++){
+            if(r<5 && c < 5 && r>-1 && c>-1 && buttons[r][c]==true){
+              numMines ++;
+            }
+        }
+      }
+      if(mines[row][col]==true){
+        numMines --;
+  }
+
     return numMines;
 }
 public class MSButton
@@ -61,8 +88,8 @@ public class MSButton
     
     public MSButton ( int row, int col )
     {
-        // width = 400/NUM_COLS;
-        // height = 400/NUM_ROWS;
+        width = 700/NUM_COLS;
+        height = 700/NUM_ROWS;
         myRow = row;
         myCol = col; 
         x = myCol*width;
@@ -82,8 +109,8 @@ public class MSButton
     {    
         if (flagged)
             fill(0);
-        // else if( clicked && mines.contains(this) ) 
-        //     fill(255,0,0);
+        else if( clicked && mines.contains(this) ) 
+             fill(255,0,0);
         else if(clicked)
             fill( 200 );
         else 
