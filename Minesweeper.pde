@@ -120,16 +120,26 @@ public class MSButton
         }else if(countMines(myRow,myCol)>0){
             setLabel(countMines(myRow, myCol));
         }else{
-
+            
+            
             for(int r = myRow-1; r<myRow+2; r++){
                 for(int c = myCol - 1; c<myCol+2; c++){
-                    buttons[r][c].clicked = true;
+                    if(isValid(myRow,myCol)){
+                        buttons[myRow][myCol].mousePressed(); 
+
+                    }
                     
                     
                 }
-            }           
+            }      
+            
+            
+            
         }
         //your code here
+    }
+    public void blob(){
+
     }
     public void draw () 
     {    
