@@ -2,7 +2,7 @@ import de.bezier.guido.*;
 //Declare and initialize constants NUM_ROWS and NUM_COLS = 20
 int NUM_ROWS = 10;
 int NUM_COLS = 10;
-int NUMINES = 1;
+int NUMINES = 8;
 int check = 0;
 
 private MSButton[][] buttons; //2d array of minesweeper buttons
@@ -50,26 +50,40 @@ public void draw ()
 }
 public boolean isWon()
 {   
-    
+    int counter = 0;
+    int checker = 0;
     for(int i = 0; i< NUMINES; i++){
-
         if(mines.get(i).isFlagged()){
-            return true;
+            counter++;
         }
-
+    }
+    for(int r = 0; r< NUM_ROWS; r++){
+        for(int c = 0; c< NUM_COLS; c++){
+            if(buttons[r][c].clicked){
+                checker++;
+            }
+        }
+    }
+    if(counter == NUMINES && checker == 100){
+        return true;
     }
     return false;
 }
 public void displayLosingMessage()
-{
-    text("You Lost", 100 , 100);
+{   
+    fill(255,0,0);
+    textSize(80);
+    text("You Lost", 350, 350);
+    textSize(20);
+    
 }
 public void displayWinningMessage()
 {
    
-    fill(255,100);
+    fill(0,255,0,200);
     textSize(100);
-    text("You WON", 300 , 100);
+    text("You WON", 350 , 350);
+    textSize(15);
 }
 public boolean isValid(int r, int c)
 {
@@ -159,6 +173,7 @@ public class MSButton
 
             fill(255,0,0);
             displayLosingMessage();
+            
         }else if(clicked && isWon())
             displayWinningMessage();
         else if(clicked)
