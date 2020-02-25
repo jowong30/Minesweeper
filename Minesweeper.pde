@@ -3,6 +3,8 @@ import de.bezier.guido.*;
 int NUM_ROWS = 10;
 int NUM_COLS = 10;
 int NUMINES = 1;
+int check = 0;
+
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines; //ArrayList of just the minesweeper buttons that are mined
 
@@ -43,12 +45,19 @@ public void setMines()
 public void draw ()
 {
     background( 0 );
-    if(isWon() == true)
-        displayWinningMessage();
+    //if(isWon() == true)
+     //   displayWinningMessage();
 }
 public boolean isWon()
-{
-    //your code here
+{   
+    
+    for(int i = 0; i< NUMINES; i++){
+
+        if(mines.get(i).isFlagged()){
+            return true;
+        }
+
+    }
     return false;
 }
 public void displayLosingMessage()
@@ -57,7 +66,10 @@ public void displayLosingMessage()
 }
 public void displayWinningMessage()
 {
-    //your code here
+   
+    fill(255,100);
+    textSize(100);
+    text("You WON", 300 , 100);
 }
 public boolean isValid(int r, int c)
 {
@@ -124,8 +136,8 @@ public class MSButton
             
             for(int r = myRow-1; r<myRow+2; r++){
                 for(int c = myCol - 1; c<myCol+2; c++){
-                    if(isValid(myRow,myCol)){
-                        buttons[myRow][myCol].mousePressed(); 
+                    if(isValid(r,c) && buttons[r][c].isClicked() == false){
+                        buttons[r][c].mousePressed(); 
 
                     }
                     
@@ -138,15 +150,17 @@ public class MSButton
         }
         //your code here
     }
-    public void blob(){
-
-    }
+    
     public void draw () 
     {    
         if (flagged)
             fill(0);
-        else if( clicked && mines.contains(this) ) 
-             fill(255,0,0);
+        else if( clicked && mines.contains(this) ) {
+
+            fill(255,0,0);
+            displayLosingMessage();
+        }else if(clicked && isWon())
+            displayWinningMessage();
         else if(clicked)
             fill( 200 );
         else 
@@ -167,5 +181,10 @@ public class MSButton
     public boolean isFlagged()
     {
         return flagged;
+    }
+
+    public boolean isClicked()
+    {
+        return clicked;
     }
 }
