@@ -2,7 +2,7 @@ import de.bezier.guido.*;
 //Declare and initialize constants NUM_ROWS and NUM_COLS = 20
 int NUM_ROWS = 10;
 int NUM_COLS = 10;
-int NUMINES = 8;
+int NUMINES = 3;
 int check = 0;
 
 private MSButton[][] buttons; //2d array of minesweeper buttons
@@ -10,6 +10,7 @@ private ArrayList <MSButton> mines; //ArrayList of just the minesweeper buttons 
 
 void setup ()
 {
+    textSize(15);
     size(700, 700);
     textAlign(CENTER,CENTER);
     
@@ -59,22 +60,23 @@ public boolean isWon()
     }
     for(int r = 0; r< NUM_ROWS; r++){
         for(int c = 0; c< NUM_COLS; c++){
-            if(buttons[r][c].clicked){
+            if(buttons[r][c].isClicked()){
                 checker++;
             }
         }
     }
-    if(counter == NUMINES && checker == 100){
+    if(counter == NUMINES && checker == (NUM_ROWS * NUM_COLS ) - NUMINES ){
         return true;
     }
     return false;
 }
 public void displayLosingMessage()
 {   
-    fill(255,0,0);
+    fill(255,10,10);
     textSize(80);
     text("You Lost", 350, 350);
-    textSize(20);
+    textSize(15);
+
     
 }
 public void displayWinningMessage()
@@ -133,14 +135,17 @@ public class MSButton
     // called by manager
     public void mousePressed () 
     {
-        clicked = true;
+        if(mouseButton == LEFT){
+            clicked = true;
+        }
         if (mouseButton == RIGHT) {
-            if(flagged == false){
+            if(flagged == false && clicked == false){
                 flagged = true;
             }else{
                 flagged = false;
-                clicked = false;
+                
             }
+
         }else if(mines.contains(this)){
             displayLosingMessage();
         }else if(countMines(myRow,myCol)>0){
@@ -172,6 +177,13 @@ public class MSButton
         else if( clicked && mines.contains(this) ) {
 
             fill(255,0,0);
+            for(int r = 0; r< NUM_ROWS; r++){
+                for(int c = 0; c< NUM_COLS; c++){
+                    if(mines.contains(buttons[r][c])){
+                        buttons[r][c].mousePressed();
+                    }
+                }
+            }
             displayLosingMessage();
             
         }else if(clicked && isWon())
