@@ -1,8 +1,8 @@
 import de.bezier.guido.*;
 //Declare and initialize constants NUM_ROWS and NUM_COLS = 20
-int NUM_ROWS = 10;
-int NUM_COLS = 10;
-int NUMINES = 3;
+int NUM_ROWS = 14;
+int NUM_COLS = 14;
+int NUMINES = 75;
 int check = 0;
 
 private MSButton[][] buttons; //2d array of minesweeper buttons
@@ -53,13 +53,15 @@ public void setMines()
             mines.add(buttons[row][col]);
         }
 
-        System.out.println(row + " , " + col);
+       
     }
 }
 
 public void draw ()
 {
     background( 0 );
+    
+    text("There are "+ NUMINES+ " Mines", 350, 840);
     //if(isWon() == true)
      //   displayWinningMessage();
 }
