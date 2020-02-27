@@ -27,6 +27,20 @@ void setup ()
     
     setMines();
 }
+public void keyPressed(){
+    for(int i=mines.size()-1; i>=0; i-- ){
+        mines.remove(i);
+    }
+    setMines();
+    for(int r = 0; r< NUM_ROWS; r++){
+        for(int c=0; c< NUM_COLS; c++){
+            buttons[r][c].flagged= false;
+            buttons[r][c].setLabel("");
+            buttons[r][c].clicked= false;
+        }
+
+    }
+}
 public void setMines()
 {
     //your code
@@ -180,11 +194,13 @@ public class MSButton
             for(int r = 0; r< NUM_ROWS; r++){
                 for(int c = 0; c< NUM_COLS; c++){
                     if(mines.contains(buttons[r][c])){
+
                         buttons[r][c].mousePressed();
+                        buttons[r][c].flagged = false;
                     }
                 }
             }
-            displayLosingMessage();
+            
             
         }else if(clicked && isWon())
             displayWinningMessage();
