@@ -1,8 +1,8 @@
 import de.bezier.guido.*;
 //Declare and initialize constants NUM_ROWS and NUM_COLS = 20
-int NUM_ROWS = 14;
-int NUM_COLS = 14;
-int NUMINES = 75;
+int NUM_ROWS = 15;
+int NUM_COLS = 15;
+int NUMINES = 60;
 int check = 0;
 
 private MSButton[][] buttons; //2d array of minesweeper buttons
@@ -11,7 +11,7 @@ private ArrayList <MSButton> mines; //ArrayList of just the minesweeper buttons 
 void setup ()
 {
     textSize(15);
-    size(700, 700);
+    size(750, 750);
     textAlign(CENTER,CENTER);
     
     // make the manager
@@ -88,11 +88,13 @@ public boolean isWon()
 }
 public void displayLosingMessage()
 {   
-    fill(255,10,10);
+    fill(150,10,10);
     textSize(80);
-    text("You Lost", 350, 350);
+    stroke(0);
+    strokeWeight(40);
+    text("You Lost", 350, 340);
     textSize(15);
-
+    strokeWeight(1);
     
 }
 public void displayWinningMessage()
@@ -100,8 +102,10 @@ public void displayWinningMessage()
    
     fill(0,255,0,200);
     textSize(100);
+    
     text("You WON", 350 , 350);
     textSize(15);
+    
 }
 public boolean isValid(int r, int c)
 {
@@ -137,8 +141,8 @@ public class MSButton
     
     public MSButton ( int row, int col )
     {
-        width = 700/NUM_COLS;
-        height = 700/NUM_ROWS;
+        width = 750/NUM_COLS;
+        height = 750/NUM_ROWS;
         myRow = row;
         myCol = col; 
         x = myCol*width;
@@ -164,6 +168,7 @@ public class MSButton
 
         }else if(mines.contains(this)){
             displayLosingMessage();
+            fill(255,0,0);
         }else if(countMines(myRow,myCol)>0){
             setLabel(countMines(myRow, myCol));
         }else{
@@ -214,6 +219,7 @@ public class MSButton
         rect(x, y, width, height);
         fill(0);
         text(myLabel,x+width/2,y+height/2);
+
     }
     public void setLabel(String newLabel)
     {
